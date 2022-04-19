@@ -10,10 +10,10 @@ See https://en.wikipedia.org/wiki/Guess_2/3_of_the_average
 
 
 class C(BaseConstants):
-    PLAYERS_PER_GROUP = 3
-    NUM_ROUNDS = 3
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 5
     NAME_IN_URL = 'guess_two_thirds'
-    JACKPOT = Currency(100)
+    JACKPOT = Currency(10)
     GUESS_MAX = 100
     INSTRUCTIONS_TEMPLATE = 'guess_two_thirds/instructions.html'
 

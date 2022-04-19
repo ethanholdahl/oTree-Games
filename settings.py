@@ -5,16 +5,8 @@ SESSION_CONFIGS = [
     dict(
         name='guess_two_thirds',
         display_name="Guess 2/3 of the Average",
-        app_sequence=['guess_two_thirds', 'payment_info'],
+        app_sequence=['guess_two_thirds'],
         num_demo_participants=3,
-    ),
-    dict(
-        name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
-    ),
-    dict(
-        name='continuous_time_slider',
-        num_demo_participants=2,
-        app_sequence=['continuous_time_slider']
     ),
 ]
 
@@ -28,7 +20,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 
 PARTICIPANT_FIELDS = []
-SESSION_FIELDS = ['history']
+SESSION_FIELDS = []
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
@@ -40,9 +32,9 @@ USE_POINTS = True
 
 ROOMS = [
     dict(
-        name='econ101',
-        display_name='Econ 101 class',
-        participant_label_file='_rooms/econ101.txt',
+        name='econ311',
+        display_name='Econ 311 class',
+        participant_label_file='_rooms/econ311.txt',
     ),
     dict(name='live_demo', display_name='Room for live demo (no participant labels)'),
 ]
