@@ -14,8 +14,8 @@ for classroom/teaching use.
 class C(BaseConstants):
     NAME_IN_URL = 'traveler_dilemma'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 1
-    INSTRUCTIONS_TEMPLATE = 'traveler_dilemma/instructions.html'
+    NUM_ROUNDS = 3
+    INSTRUCTIONS_TEMPLATE = 'a_traveler_dilemma/instructions.html'
     # Player's reward for the lowest claim"""
     ADJUSTMENT_ABS = cu(2)
     # Player's deduction for the higher claim
@@ -24,6 +24,8 @@ class C(BaseConstants):
     # The minimum claim to be requested
     MIN_AMOUNT = cu(2)
 
+def creating_session(subsession):
+    subsession.group_randomly()
 
 class Subsession(BaseSubsession):
     pass
@@ -83,6 +85,7 @@ class Claim(Page):
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
+
 
 
 class Results(Page):
