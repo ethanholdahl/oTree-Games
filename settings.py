@@ -3,16 +3,22 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
+        name='intro_to_gt',
+        display_name="Intro to Game Theory",
+        app_sequence=['a_guess_two_thirds', 'a_traveler_dilemma', 'a_prisoner_random', 'a_prisoner_repeated', 'a_group_coordination'],
+        num_demo_participants=2,
+    ),
+    dict(
         name='a_guess_two_thirds',
         display_name="Guess 2/3 of the Average",
         app_sequence=['a_guess_two_thirds'],
-        num_demo_participants=3,
+        num_demo_participants=2,
     ),
     dict(
         name='a_traveler_dilemma',
         display_name="Traveler's Dilemma",
         app_sequence=['a_traveler_dilemma'],
-        num_demo_participants=4,
+        num_demo_participants=2,
     ),
     dict(
         name='a_prisoner_random',
@@ -24,13 +30,13 @@ SESSION_CONFIGS = [
         name='a_prisoner_repeated',
         display_name="Repeated Prisoner's Dilemma with Same Opponent",
         app_sequence=['a_prisoner_repeated'],
-        num_demo_participants=4,
+        num_demo_participants=2,
     ),
     dict(
         name='a_group_coordination',
         display_name="Group Coordination Game",
         app_sequence=['a_group_coordination'],
-        num_demo_participants=3,
+        num_demo_participants=2,
     ),
 ]
 
