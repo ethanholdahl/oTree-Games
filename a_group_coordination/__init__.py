@@ -1,5 +1,4 @@
 from otree.api import *
-import numpy as np
 
 doc = """
 This is a repeated "Prisoner's Dilemma" against the same opponent each round.
@@ -52,6 +51,7 @@ def count_choices(group: Group):
 
 
 def set_payoffs(group: Group):
+    import numpy as np
     for player in group.get_players():
         payoff_matrix = ([
         C.PAYOFF_A,
@@ -76,7 +76,6 @@ def set_payoffs(group: Group):
             play[2] = play[2]-1
             payoff = np.dot(play,payoff_matrix)[2]
         player.payoff = payoff
-        print(player.payoff)
         set_payoff(player)
 
 
