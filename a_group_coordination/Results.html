@@ -2,11 +2,16 @@
 {{ block content }}
 
     <p>
-        {{ if same_choice }}
-            Both of you chose to {{ my_decision }}.
-        {{ else }}
-            You chose to {{ my_decision }} and the other participant chose to {{ opponent_decision }}.
-        {{ endif }}
+      {{picked_A}} other players chose A.
+      </p>
+      <p>
+      {{picked_B}} other players chose B.
+      </p>
+      <p>
+      {{picked_C}} other players chose C.
+    </p>
+    <p>
+      You chose {{ my_decision }}.
     </p>
 
     <p>

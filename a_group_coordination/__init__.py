@@ -1,5 +1,5 @@
 from otree.api import *
-
+import numpy as np
 
 doc = """
 This is a repeated "Prisoner's Dilemma" against the same opponent each round.
@@ -34,16 +34,51 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     choice = models.CharField(
-        choices=[['A', 'Cooperate'], ['B', 'Defect'], ['C', 'C']],
+        choices=[['A', 'A'], ['B', 'B'], ['C', 'C']],
         doc="""This player's decision""",
         widget=widgets.RadioSelect,
     )
 
 
 # FUNCTIONS
+
+def count_choices(group: Group):
+    players = group.get_players()
+    choices = [p.choice for p in players]
+    totals = [choices.count("A"), choices.count("B"), choices.count("C")]
+    print(totals)
+    return totals
+
+
+
 def set_payoffs(group: Group):
-    for p in group.get_players():
-        set_payoff(p)
+    for player in group.get_players():
+        payoff_matrix = ([
+        C.PAYOFF_A,
+        C.PAYOFF_B,
+        C.PAYOFF_C],
+        [C.PAYOFF_D,
+        C.PAYOFF_E,
+        C.PAYOFF_F],
+        [C.PAYOFF_G,
+        C.PAYOFF_H,
+        C.PAYOFF_I])
+        if player.choice == "A":
+            play = count_choices(group)
+            play[0] = play[0]-1
+            payoff = np.dot(play,payoff_matrix)[0]
+        if player.choice == "B":
+            play = count_choices(group)
+            play[1] = play[1]-1
+            payoff = np.dot(play,payoff_matrix)[1]
+        if player.choice == "C":
+            play = count_choices(group)
+            play[2] = play[2]-1
+            payoff = np.dot(play,payoff_matrix)[2]
+        player.payoff = payoff
+        print(player.payoff)
+        set_payoff(player)
+
 
 
 def other_player(player: Player):
@@ -51,19 +86,8 @@ def other_player(player: Player):
 
 
 def set_payoff(player: Player):
-    payoff_matrix = {
-        ('A', 'A'): C.PAYOFF_A,
-        ('A', 'B'): C.PAYOFF_B,
-        ('A', 'C'): C.PAYOFF_C,
-        ('B', 'A'): C.PAYOFF_D,
-        ('B', 'B'): C.PAYOFF_E,
-        ('B', 'C'): C.PAYOFF_F,
-        ('C', 'A'): C.PAYOFF_G,
-        ('C', 'B'): C.PAYOFF_H,
-        ('C', 'C'): C.PAYOFF_I,
-    }
     other = other_player(player)
-    player.payoff = payoff_matrix[(player.choice, other.choice)]
+    #player.payoff = payoff_matrix[(player.choice, other.choice)]
 
 
 # PAGES
@@ -85,12 +109,22 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        opponent = other_player(player)
+        group = player.group
+        for player in group.get_players():
+            if player.choice == "A":
+                play = count_choices(group)
+                play[0] = play[0]-1
+            if player.choice == "B":
+                play = count_choices(group)
+                play[1] = play[1]-1
+            if player.choice == "C":
+                play = count_choices(group)
+                play[2] = play[2]-1
         return dict(
-            opponent=opponent,
-            same_choice=player.choice == opponent.choice,
-            my_decision=player.field_display('choice'),
-            opponent_decision=opponent.field_display('choice'),
+            picked_A=play[0],
+            picked_B=play[1],
+            picked_C=play[2],
+            my_decision=player.field_display('choice')
         )
 
 
