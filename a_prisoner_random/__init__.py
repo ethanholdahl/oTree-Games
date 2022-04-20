@@ -2,22 +2,24 @@ from otree.api import *
 
 
 doc = """
-This is a one-shot "Prisoner's Dilemma". Two players are asked separately
-whether they want to cooperate or defect. Their choices directly determine the
-payoffs.
+This is a repeated "Prisoner's Dilemma" with random opponents.
+Two players are asked separately whether they want to cooperate or defect.
+Their choices directly determine the payoffs.
 """
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'prisoner'
+    NAME_IN_URL = 'prisoner_random'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 1
-    INSTRUCTIONS_TEMPLATE = 'prisoner/instructions.html'
+    NUM_ROUNDS = 5
+    INSTRUCTIONS_TEMPLATE = 'a_prisoner_random/instructions.html'
     PAYOFF_A = cu(300)
     PAYOFF_B = cu(200)
     PAYOFF_C = cu(100)
     PAYOFF_D = cu(0)
 
+def creating_session(subsession):
+    subsession.group_randomly()
 
 class Subsession(BaseSubsession):
     pass
@@ -58,8 +60,9 @@ def set_payoff(player: Player):
 
 # PAGES
 class Introduction(Page):
-    timeout_seconds = 100
-
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
 
 class Decision(Page):
     form_model = 'player'

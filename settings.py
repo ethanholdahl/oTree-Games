@@ -14,6 +14,24 @@ SESSION_CONFIGS = [
         app_sequence=['a_traveler_dilemma'],
         num_demo_participants=4,
     ),
+    dict(
+        name='a_prisoner_random',
+        display_name="Repeated Prisoner's Dilemma with Random Opponent",
+        app_sequence=['a_prisoner_random'],
+        num_demo_participants=2,
+    ),
+    dict(
+        name='a_prisoner_repeated',
+        display_name="Repeated Prisoner's Dilemma with Same Opponent",
+        app_sequence=['a_prisoner_repeated'],
+        num_demo_participants=4,
+    ),
+    dict(
+        name='a_group_coordination',
+        display_name="Group Coordination Game",
+        app_sequence=['a_group_coordination'],
+        num_demo_participants=3,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
