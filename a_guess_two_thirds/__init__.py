@@ -13,7 +13,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 5
     NAME_IN_URL = 'guess_two_thirds'
-    JACKPOT = Currency(10)
+    JACKPOT = Currency(100)
     GUESS_MAX = 100
     INSTRUCTIONS_TEMPLATE = 'a_guess_two_thirds/instructions.html'
 

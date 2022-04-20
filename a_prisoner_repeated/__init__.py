@@ -13,9 +13,9 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 5
     INSTRUCTIONS_TEMPLATE = 'a_prisoner_repeated/instructions.html'
-    PAYOFF_A = cu(300)
-    PAYOFF_B = cu(200)
-    PAYOFF_C = cu(100)
+    PAYOFF_A = cu(30)
+    PAYOFF_B = cu(20)
+    PAYOFF_C = cu(10)
     PAYOFF_D = cu(0)
 
 
