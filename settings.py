@@ -36,7 +36,7 @@ SESSION_CONFIGS = [
         name='a_group_coordination',
         display_name="Group Coordination Game",
         app_sequence=['a_group_coordination'],
-        num_demo_participants=2,
+        num_demo_participants=3,
     ),
 ]
 
