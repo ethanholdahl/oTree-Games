@@ -1,17 +1,17 @@
 {{ block title }} Experiment Title {{ endblock }}
 {{ block content }}
 
-    <body>
+    <p>
         <div>Your selected choice will be submitted in <span id="time"></span> seconds</div>
-    </body>
+    </p>
 
-    <body>
+    <p>
         <div><span id="message"></span></div>
-    </body>
+    </p>
 
-    <body>
+    <p>
         <div><span id="payoff_message"></span></div>
-    </body>
+    </p>
 
 {{ include C.PLOT_TEMPLATE }}
 
@@ -25,7 +25,7 @@
               <th>A</th>
               <th>B</th>
               <th>C</th>
-          <tr bgcolor = "yellow">
+          <tr id = 'A' bgcolor = "yellow">
               <td><button type="button" id="choiceA" onclick="choiceselect('A')" name="choice" value="A" class="btn btn-primary btn-large">I will pick A</button></td>
               <td>{{C.PAYOFF_A}}, {{C.PAYOFF_A}}</td>
               <td>{{C.PAYOFF_B}}, {{C.PAYOFF_D}}</td>
