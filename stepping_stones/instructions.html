@@ -1,0 +1,51 @@
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3>
+        Instructions
+    </h3>
+
+    <p>
+        In this study, you will be randomly and anonymously paired with another
+        participant.
+        Each of you simultaneously and privately chooses whether you want to
+        cooperate or defect.
+        Your payoffs will be determined by the choices of both as below:
+    </p>
+    <p><i>In each cell, the amount to the left is the payoff for
+        you and to the right for the other participant.</i></p>
+
+        <table class="table table-bordered text-center" style="width: auto; margin: auto">
+            <tr>
+                <th colspan=2 rowspan=2></th>
+                <th colspan=3>The Other Participants</th>
+            </tr>
+            <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+            </tr>
+            <tr>
+                <th rowspan=3><span>You</span></th>
+                <td>A</td>
+                <td>{{C.PAYOFF_A}}, {{C.PAYOFF_A}}</td>
+                <td>{{C.PAYOFF_B}}, {{C.PAYOFF_D}}</td>
+                <td>{{C.PAYOFF_C}}, {{C.PAYOFF_G}}</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>{{C.PAYOFF_D}}, {{C.PAYOFF_B}}</td>
+                <td>{{C.PAYOFF_E}}, {{C.PAYOFF_E}}</td>
+                <td>{{C.PAYOFF_F}}, {{C.PAYOFF_H}}</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>{{C.PAYOFF_G}}, {{C.PAYOFF_C}}</td>
+                <td>{{C.PAYOFF_H}}, {{C.PAYOFF_F}}</td>
+                <td>{{C.PAYOFF_I}}, {{C.PAYOFF_I}}</td>
+            </tr>
+        </table>
+
+
+</div>
+</div>

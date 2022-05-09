@@ -1,0 +1,63 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+<figure class="highcharts-figure">
+    <div id="highchart" style="height: 20em"></div>
+</figure>
+
+
+<script>
+  function redrawPlot(play){
+    Highcharts.chart('highchart', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: "Count of Other Player's Strategies Last Round"
+        },
+        xAxis: {
+            categories: [
+                'A',
+                'B',
+                'C'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Numer of Other Players'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: false,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            },
+          },
+          series: [{
+            name: "Count of Other Player's Strategies Last Round",
+            data: play
+
+        }],
+
+        legend:{
+          enabled:false
+        },
+
+        credits: {
+            enabled: false
+        }
+    });
+  }
+
+
+</script>

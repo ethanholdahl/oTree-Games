@@ -1,0 +1,22 @@
+{{ block title }}Results{{ endblock }}
+{{ block content }}
+
+    <p>
+      Your randomly selected payoffs rounds were: round {{ payoffround1 }}, round {{ payoffround2 }},and round {{ payoffround3 }}.
+    </p>
+    <p>
+      In round {{ payoffround1 }} your payoff was: {{ payoff1 }}
+    </p>
+    <p>
+      In round {{ payoffround2 }} your payoff was: {{ payoff2 }}
+    </p>
+    <p>
+      In round {{ payoffround3 }} your payoff was: {{ payoff3 }}
+    </p>
+    <p>
+      In total, you earned {{ player.payoff }}.
+    </p>
+
+    {{ next_button }}
+
+{{ endblock }}

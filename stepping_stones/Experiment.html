@@ -1,0 +1,135 @@
+{{ block title }} Experiment Title {{ endblock }}
+{{ block content }}
+
+    <body>
+        <div>Your selected choice will be submitted in <span id="time"></span> seconds</div>
+    </body>
+
+    <body>
+        <div><span id="message"></span></div>
+    </body>
+
+    <body>
+        <div><span id="payoff_message"></span></div>
+    </body>
+
+{{ include C.PLOT_TEMPLATE }}
+
+    <div class="form-group required">
+      <table id = "payoff_table" class="table table-bordered text-center" style="width: auto; margin: auto">
+          <tr>
+              <th colspan=1 rowspan=2></th>
+              <th colspan=3>The Other Participants</th>
+          </tr>
+          <tr>
+              <th>A</th>
+              <th>B</th>
+              <th>C</th>
+          <tr bgcolor = "yellow">
+              <td><button type="button" id="choiceA" onclick="choiceselect('A')" name="choice" value="A" class="btn btn-primary btn-large">I will pick A</button></td>
+              <td>{{C.PAYOFF_A}}, {{C.PAYOFF_A}}</td>
+              <td>{{C.PAYOFF_B}}, {{C.PAYOFF_D}}</td>
+              <td>{{C.PAYOFF_C}}, {{C.PAYOFF_G}}</td>
+          </tr>
+          <tr id = 'B'>
+              <td><button type="button" id="choiceB" onclick="choiceselect('B')" name="choice" value="B" class="btn btn-primary btn-large">I will pick B</button></td>
+              <td>{{C.PAYOFF_D}}, {{C.PAYOFF_B}}</td>
+              <td>{{C.PAYOFF_E}}, {{C.PAYOFF_E}}</td>
+              <td>{{C.PAYOFF_F}}, {{C.PAYOFF_H}}</td>
+          </tr>
+          <tr id = 'C'>
+              <td><button type="button" id="choiceC" onclick="choiceselect('C')" name="choice" value="C" class="btn btn-primary btn-large">I will pick C</button></td>
+              <td>{{C.PAYOFF_G}}, {{C.PAYOFF_C}}</td>
+              <td>{{C.PAYOFF_H}}, {{C.PAYOFF_F}}</td>
+              <td>{{C.PAYOFF_I}}, {{C.PAYOFF_I}}</td>
+          </tr>
+      </table>
+    </div>
+
+    {{ include C.INSTRUCTIONS_TEMPLATE }}
+
+{{ endblock }}
+
+{{ block scripts }}
+
+<script>
+
+  var messgae = document.querySelector('#message')
+  var payoff_messgae = document.querySelector('#payoff_message')
+    function choiceselect(choice){
+      liveSend({'choice': choice});
+    }
+
+    function liveRecv(data){
+      if ('choice' in data){
+        // choice update
+        selected(data.choice, "yellow")
+      } else {
+        // end of round
+        if (data.finished == "true"){
+          document.getElementById('form').submit();
+        }
+        selected(data.strategy, "green");
+        message.textContent = data.message;
+        payoff_message.textContent = data.payoff_message;
+        redrawPlot(data.play);
+      }
+
+    }
+
+    function selected(strategy, color){
+      document.getElementById('A').style.backgroundColor = "white";
+      document.getElementById('B').style.backgroundColor = "white";
+      document.getElementById('C').style.backgroundColor = "white";
+      document.getElementById(strategy).style.backgroundColor = color;
+    }
+
+    function startTimer(display, round) {
+        var start = Date.now(),
+            diff,
+            seconds;
+        function timer() {
+          if (round == 1){
+            duration = 30
+          } else if (round <= 10) {
+            duration = 20
+          } else {
+            duration = 10
+          }
+            // get the number of seconds that have elapsed since
+            // startTimer() was called
+            diff = duration - (((Date.now() - start) / 1000) | 0);
+
+            // does the same job as parseInt truncates the float
+            seconds = diff | 0;
+
+            display.textContent = seconds;
+
+            if (diff <= 0) {
+                // add one second so that the count down starts at the full duration
+                // example 05:00 not 04:59
+                // send message to server to collect for round
+                liveSend('calculate')
+                start = Date.now() + 1000;
+                round = round+1
+            }
+        };
+        // we don't want to wait a full second before the timer starts
+        timer();
+        setInterval(timer, 1000);
+    }
+
+    window.onload = function () {
+      var display = document.querySelector('#time');
+      startTimer(display, 1);
+    };
+
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({});
+    });
+
+</script>
+
+
+{{ endblock }}
