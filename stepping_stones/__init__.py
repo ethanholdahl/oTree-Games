@@ -139,19 +139,19 @@ class Experiment(Page):
             #End of round
             #Do stochastic determination for all players during first pass.
             if group.randomized == 0:
-                for player in group.get_players():
+                for p in group.get_players():
                     #record choice
-                    player.choice_history = player.choice_history + "," +player.choice
+                    p.choice_history = p.choice_history + "," +p.choice
                     #determine if choice is stochastically accpeted
                     if random.random() > C.UPDATE:
                         #action changed fails
-                        player.change = "false"
-                        player.strategy = player.strategy_history[-1]
+                        p.change = "false"
+                        p.strategy = p.strategy_history[-1]
                     else:
-                        player.change = "true"
-                        player.strategy = player.choice
+                        p.change = "true"
+                        p.strategy = p.choice
                     #update player.strategy_history
-                    player.strategy_history = player.strategy_history + "," + player.strategy
+                    p.strategy_history = p.strategy_history + "," + p.strategy
                 #calculate round payoff
                 set_payoffs(group)
             # reset group.randomized once the last player runs this code
