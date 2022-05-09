@@ -176,7 +176,7 @@ class Experiment(Page):
             else:
                 finished = "false"
             if (player.change == "true"):
-                message = "".join(["Your choice last round, ", player.choice, ", was randomly accpeted and your strategy was updated. Consequently, your strategy for last round is ", player.choice, "."])
+                message = "".join(["Your choice last round, ", player.choice, ", was randomly accepted and your strategy was updated. Consequently, your strategy for last round is ", player.choice, "."])
             else:
                 message = "".join(["Your choice last round, ", player.choice, ", was randomly rejected and your strategy failed to update. Consequently, your strategy for last round is ", player.strategy, "."])
             #set player.choice to player.strategy
