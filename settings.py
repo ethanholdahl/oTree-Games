@@ -38,6 +38,12 @@ SESSION_CONFIGS = [
         app_sequence=['a_group_coordination'],
         num_demo_participants=3,
     ),
+    dict(
+        name='stepping_stones',
+        display_name="Stepping Stones",
+        app_sequence=['stepping_stones'],
+        num_demo_participants=3,
+    )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
