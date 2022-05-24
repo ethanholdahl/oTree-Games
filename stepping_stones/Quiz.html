@@ -1,0 +1,131 @@
+{{ block title }} Quiz to Check Understanding {{ endblock }}
+{{ block content }}
+
+<h3>Consider the following payoff table:</h3>
+
+{{ if subsession.INFORMATION }}
+
+    <div class="form-group required">
+      <table class="table table-bordered text-center" style="width: auto; margin: auto">
+        <tr>
+            <th colspan=1 rowspan=2></th>
+            <th colspan=3>The Other Participants</th>
+        </tr>
+        <tr>
+            <th><font color='#0000FF'>A</font></th>
+            <th><font color='#0000FF'>B</font></th>
+            <th><font color='#0000FF'>C</font></th>
+        <tr id = 'A'>
+            <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_A}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_D}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_G}}</font></td>
+        </tr>
+        <tr id = 'B'>
+            <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_B}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_E}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_H}}</font></td>
+        </tr>
+        <tr id = 'C'>
+            <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_C}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_F}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_I}}</font></td>
+        </tr>
+      </table>
+    </div>
+
+    <h3 id="question"></h3>
+    <p>Only integers are accepted.</p>
+    <input type="number" id="answer">
+    <button type="button" onclick="sendAnswer()" id="btn-offer">Submit Answer</button>
+    <div id="feedback" style="font-size: 100px"></div>
+
+    {{ else }}
+
+    <div class="form-group required">
+      <table class="table table-bordered text-center" style="width: auto; margin: auto">
+        <tr>
+            <th colspan=1 rowspan=2></th>
+            <th colspan=3>The Other Participants</th>
+        </tr>
+        <tr>
+            <th><font color='#0000FF'>A</font></th>
+            <th><font color='#0000FF'>B</font></th>
+            <th><font color='#0000FF'>C</font></th>
+        <tr id = 'A'>
+            <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font></td>
+        </tr>
+        <tr id = 'B'>
+            <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font></td>
+        </tr>
+        <tr id = 'C'>
+            <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font></td>
+            <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font></td>
+        </tr>
+      </table>
+    </div>
+
+    <h3 id="question"></h3>
+    <p>Only integers are accepted.</p>
+    <input type="number" id="answer">
+    <button type="button" onclick="sendAnswer()" id="btn-offer">Submit Answer</button>
+    <div id="feedback" style="font-size: 100px"></div>
+
+    {{ endif }}
+
+{{ endblock }}
+
+{{ include C.INSTRUCTIONS_TEMPLATE }}
+
+{{ block scripts }}
+
+
+<script>
+
+  let answer = document.getElementById('answer');
+  let feedback = document.getElementById('feedback');
+  var question = document.querySelector('#question');
+
+    function liveRecv(data){
+      if ('feedback' in data){
+        feedback.innerHTML = data.feedback;
+        feedback.style.display = 'block';
+        setTimeout(function () {
+          feedback.style.display = 'none';
+        }, 2000);
+      }
+      if ('is_finished' in data){
+        setTimeout(function () {
+            document.getElementById('form').submit();
+          }, 1000);
+      } else {
+        let elementquestion = document.getElementById("question");
+        while (elementquestion.firstChild) {
+          elementquestion.removeChild(elementquestion.firstChild);
+        }
+        question.insertAdjacentHTML('afterbegin', data.question);
+      }
+    }
+
+    function sendAnswer() {
+      liveSend({'answer': answer.value})
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({});
+    });
+
+</script>
+
+{{ endblock }}

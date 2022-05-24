@@ -42,7 +42,7 @@ SESSION_CONFIGS = [
         name='stepping_stones',
         display_name="Stepping Stones",
         app_sequence=['stepping_stones'],
-        num_demo_participants=3,
+        num_demo_participants=20,
     )
 ]
 
