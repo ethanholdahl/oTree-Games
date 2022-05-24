@@ -24,10 +24,10 @@
               <th colspan=3>The Other Participants</th>
           </tr>
           <tr>
-            <th id = 'oppA'><font color='#0000FF'>A</font></th>
-            <th id = 'oppB'><font color='#0000FF'>B</font></th>
-            <th id = 'oppC'><font color='#0000FF'>C</font></th>
-          <tr bgcolor = "LawnGreen" id = 'A'>
+            <th id = 'oppA'></th>
+            <th id = 'oppB'></th>
+            <th id = 'oppC'></th>
+          <tr id = 'A'>
               <td><button type="button" id="choiceA" onclick="choiceselect('A')" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
               <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_A}}</font></td>
               <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_D}}</font></td>
@@ -57,10 +57,10 @@
               <th colspan=3>The Other Participants</th>
           </tr>
           <tr>
-            <th id = 'oppA'><font color='#0000FF'>A</font></th>
-            <th id = 'oppB'><font color='#0000FF'>B</font></th>
-            <th id = 'oppC'><font color='#0000FF'>C</font></th>
-          <tr bgcolor = "LawnGreen" id = 'A'>
+            <th id = 'oppA'></th>
+            <th id = 'oppB'></th>
+            <th id = 'oppC'></th>
+          <tr id = 'A'>
               <td><button type="button" id="choiceA" onclick="choiceselect('A')" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
               <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font></td>
               <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font></td>
@@ -94,6 +94,7 @@
   var oppA = document.querySelector('#oppA')
   var oppB = document.querySelector('#oppB')
   var oppC = document.querySelector('#oppC')
+
     function choiceselect(choice){
       liveSend({'choice': choice});
     }
@@ -103,6 +104,13 @@
         var start = data.start
         var display = document.querySelector('#time');
         startTimer(display, 1, start);
+        selected(data.strategy, "LawnGreen");
+        message.insertAdjacentHTML('afterbegin', data.message);
+        oppA.insertAdjacentHTML('beforeend', data.oppA);
+        oppB.insertAdjacentHTML('beforeend', data.oppB);
+        oppC.insertAdjacentHTML('beforeend', data.oppC);
+        redrawPlot(data.play);
+        return
       }
       if ('choice' in data){
         // choice update

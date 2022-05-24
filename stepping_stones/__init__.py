@@ -192,7 +192,7 @@ class Introduction(Page):
     def is_displayed(player: Player):
         subsession = player.subsession
         subsession.GAME = subsession.session.config['Game']
-        subsession.INFORMATION = subsession.session.config['Information']
+        subsession.INFORMATION = subsession.session.config['Complete_Information']
         subsession.UPDATE = subsession.session.config['Update']
         subsession.ROUNDS = subsession.session.config['Rounds']
         subsession.PLAYERS = subsession.session.config['Players']
@@ -318,14 +318,34 @@ class ExperimentWaitPage(WaitPage):
 class Experiment(Page):
     @staticmethod
     def live_method(player: Player, data):
-        if player.send != 2:
-            now_ms = int(datetime.now(tz=timezone.utc).timestamp() * 1000)
-            player.send = 2
-            return {player.id_in_group: dict(
-            start=now_ms
-            )}
         group = player.group
         subsession = player.subsession
+        if player.send != 2:
+            now_ms = int(datetime.now(tz=timezone.utc).timestamp() * 1000)
+            set_payoffs(group)
+            if player.strategy == "A":
+                play = count_strategies(group)
+                play[0] = play[0]-1
+            if player.strategy == "B":
+                play = count_strategies(group)
+                play[1] = play[1]-1
+            if player.strategy == "C":
+                play = count_strategies(group)
+                play[2] = play[2]-1
+            message = "<b>Everyone</b> starts the game with <b>A</b> being their last round <font color='GREEN'><b>strategy</b></font>."
+            oppA = "".join(["<font color='#0000FF'>A (",str(play[0]),")</font>"])
+            oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
+            oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
+            player.send = 2
+            return {player.id_in_group: dict(
+            start=now_ms,
+            message=message,
+            strategy=player.strategy,
+            play=play,
+            oppA=oppA,
+            oppB=oppB,
+            oppC=oppC
+            )}
         if 'choice' in data:
             player.choice = data['choice']
             return {player.id_in_group: dict(
@@ -383,9 +403,9 @@ class Experiment(Page):
                 payoff_message = "".join(["Your payoff from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_D),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_E),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_F),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
             if (player.strategy == "C"):
                 payoff_message = "".join(["Your payoff from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_G),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_H),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_I),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
-            oppA = "".join(["A <font color='#0000FF'>(",str(play[0]),")</font>"])
-            oppB = "".join(["B <font color='#0000FF'>(",str(play[1]),")</font>"])
-            oppC = "".join(["C <font color='#0000FF'>(",str(play[2]),")</font>"])
+            oppA = "".join(["<font color='#0000FF'>A (",str(play[0]),")</font>"])
+            oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
+            oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
             return {player.id_in_group: dict(
             message=message,
             strategy=player.strategy,
@@ -401,7 +421,8 @@ class Experiment(Page):
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        payoffrounds = random.sample(range(1,(C.ROUNDS+1)), k = 3)
+        subsession = player.subsession
+        payoffrounds = random.sample(range(1,(subsession.ROUNDS+1)), k = 3)
         payoffround1 = payoffrounds[0]
         payoffround2 = payoffrounds[1]
         payoffround3 = payoffrounds[2]

@@ -118,7 +118,8 @@
     }
 
     function sendAnswer() {
-      liveSend({'answer': answer.value})
+      liveSend({'answer': answer.value});
+      answer.value = '';
     }
 
 
