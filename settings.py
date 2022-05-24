@@ -42,7 +42,12 @@ SESSION_CONFIGS = [
         name='stepping_stones',
         display_name="Stepping Stones",
         app_sequence=['stepping_stones'],
-        num_demo_participants=20,
+        num_demo_participants=3,
+        Game = 1,
+        Information = True,
+        Update = .5,
+        Rounds = 15,
+        Players = 8
     )
 ]
 
