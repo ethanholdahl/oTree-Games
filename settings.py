@@ -47,7 +47,9 @@ SESSION_CONFIGS = [
         Complete_Information = True,
         Update = .5,
         Rounds = 15,
-        Players = 8
+        Players = 8,
+        participation_fee=5.00,
+        real_world_currency_per_point=1/7
     )
 ]
 

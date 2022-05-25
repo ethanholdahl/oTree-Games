@@ -95,12 +95,14 @@ class Subsession(BaseSubsession):
     initial = '7'
     )
     question4 = models.LongStringField(
-    initial = "Assume there are 7 players other than you in the game, your <font color='GREEN'><b>strategy</b></font> in a round is <font color='GREEN'><b>A</b></font> and the distribution of opponents <font color='#0000FF'><b>strategies</b></font> are as follows: 2 <font color='#0000FF'><b>A</b></font>, 4 <font color='#0000FF'><b>B</b></font>, 1 <font color='#0000FF'><b>C</b></font>. What would your <font color='Red'><b>payoff</b></font> for this round be?"
+    initial = "Assume there are 7 players other than you in the game, your <font color='GREEN'><b>strategy</b></font> in a round is <font color='GREEN'><b>A</b></font> and the distribution of opponents <font color='#0000FF'><b>strategies</b></font> are as follows: <font color='#0000FF'><b>2 A</b></font>, <font color='#0000FF'><b>4 B</b></font>, <font color='#0000FF'><b>1 C</b></font>. What would your <font color='Red'><b>payoff</b></font> for this round be?"
     )
     solution4 = models.IntegerField(
     initial = '25'
     )
-
+    now_ms = models.IntegerField(
+    initial = '1'
+    )
 class Group(BaseGroup):
     randomized = models.IntegerField(
     initial = 0
@@ -138,6 +140,9 @@ class Player(BasePlayer):
     initial = '0'
     )
     send = models.IntegerField(
+    initial = '0'
+    )
+    earnings = models.CharField(
     initial = '0'
     )
 
@@ -311,7 +316,8 @@ class Quiz(Page):
 
 class ExperimentWaitPage(WaitPage):
     template_name = 'stepping_stones/ExperimentWaitPage.html'
-
+    def after_all_players_arrive(group: Group):
+        group.subsession.now_ms = int((datetime.now(tz=timezone.utc).timestamp()+1) * 1000)
 
 
 
@@ -321,7 +327,6 @@ class Experiment(Page):
         group = player.group
         subsession = player.subsession
         if player.send != 2:
-            now_ms = int(datetime.now(tz=timezone.utc).timestamp() * 1000)
             set_payoffs(group)
             if player.strategy == "A":
                 play = count_strategies(group)
@@ -338,7 +343,7 @@ class Experiment(Page):
             oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
             player.send = 2
             return {player.id_in_group: dict(
-            start=now_ms,
+            start=subsession.now_ms,
             message=message,
             strategy=player.strategy,
             play=play,
@@ -392,17 +397,17 @@ class Experiment(Page):
             else:
                 finished = "false"
             if (player.change == "true"):
-                message = "".join(["Your choice last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <font color='GREEN'><b>accepted</b></font> and your strategy was updated. Consequently, your strategy for last round is <font color='GREEN'><b>", player.choice, "</b></font>."])
+                message = "".join(["Your <font color='GoldenRod'><b>choice</b></font> last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <font color='GREEN'><b>accepted</b></font> and your <font color='GREEN'><b>strategy</b></font> was updated. Consequently, your <font color='GREEN'><b>strategy</b></font> for last round is <font color='GREEN'><b>", player.choice, "</b></font>."])
             else:
-                message = "".join(["Your choice last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <font color='RED'><b>rejected</b></font> and your strategy failed to update. Consequently, your strategy for last round is <font color='GREEN'><b>", player.strategy, "</b></font>."])
+                message = "".join(["Your <font color='GoldenRod'><b>choice</b></font> last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <font color='RED'><b>rejected</b></font> and your <font color='GREEN'><b>strategy</b></font> failed to update. Consequently, your <font color='GREEN'><b>strategy</b></font> for last round is <font color='GREEN'><b>", player.strategy, "</b></font>."])
             #set player.choice to player.strategy
             player.choice = player.strategy
             if (player.strategy == "A"):
-                payoff_message = "".join(["Your payoff from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_A),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_B),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_C),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
+                payoff_message = "".join(["Your <font color='Red'><b>payoff</b></font> from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_A),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_B),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_C),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
             if (player.strategy == "B"):
-                payoff_message = "".join(["Your payoff from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_D),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_E),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_F),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
+                payoff_message = "".join(["Your <font color='Red'><b>payoff</b></font> from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_D),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_E),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_F),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
             if (player.strategy == "C"):
-                payoff_message = "".join(["Your payoff from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_G),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_H),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_I),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
+                payoff_message = "".join(["Your <font color='Red'><b>payoff</b></font> from the last round: <font color='#0000FF'><b>",str(play[0]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_G),"</b></font> + <font color='#0000FF'><b>",str(play[1]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_H),"</b></font> + <font color='#0000FF'><b>",str(play[2]),"</b></font>*<font color='FireBrick'><b>",str(subsession.PAYOFF_I),"</b></font> = <font color='Red'><b>",str(player.payoff),"</b></font>"])
             oppA = "".join(["<font color='#0000FF'>A (",str(play[0]),")</font>"])
             oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
             oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
@@ -422,23 +427,24 @@ class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         subsession = player.subsession
-        payoffrounds = random.sample(range(1,(subsession.ROUNDS+1)), k = 3)
+        payoffrounds = random.sample(range(1,(subsession.ROUNDS+1)), k = 2)
         payoffround1 = payoffrounds[0]
         payoffround2 = payoffrounds[1]
-        payoffround3 = payoffrounds[2]
         values = player.payoff_history.split(',')
         payoff1 = values[payoffround1]
         payoff2 = values[payoffround2]
-        payoff3 = values[payoffround3]
-        player.payoff = float(re.sub("[^0-9]", "", payoff1)) + float(re.sub("[^0-9]", "",payoff2)) + float(re.sub("[^0-9]", "",payoff3))
-        #player.payoff = payoff1 + payoff2 + payoff3
+        player.payoff = cu(float(re.sub("[^0-9]", "", payoff1)) + float(re.sub("[^0-9]", "",payoff2)))
+        real_world_currency_per_point = float(1/(player.subsession.OPPONENTS))
+        variablepay = float(player.payoff) * real_world_currency_per_point
+        fixedpay = float(player.session.participation_fee)
+        player.earnings = "{:.2f}".format(float(variablepay + fixedpay))
         return dict(
         payoffround1 = payoffround1,
         payoffround2 = payoffround2,
-        payoffround3 = payoffround3,
         payoff1 = payoff1,
         payoff2 = payoff2,
-        payoff3 = payoff3
+        variablepay = "{:.2f}".format(variablepay),
+        fixedpay = "{:.2f}".format(fixedpay)
         )
 
 
