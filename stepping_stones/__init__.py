@@ -329,7 +329,7 @@ class Experiment(Page):
     def live_method(player: Player, data):
         group = player.group
         subsession = player.subsession
-        if subsession.send = 0:
+        if subsession.send == 0:
             set_payoffs(group)
             if player.strategy == "A":
                 play = count_strategies(group)
