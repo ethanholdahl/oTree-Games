@@ -103,6 +103,9 @@ class Subsession(BaseSubsession):
     now_ms = models.IntegerField(
     initial = '1'
     )
+    send = models.IntegerField(
+    initial = '0'
+    )
 class Group(BaseGroup):
     randomized = models.IntegerField(
     initial = 0
@@ -326,7 +329,7 @@ class Experiment(Page):
     def live_method(player: Player, data):
         group = player.group
         subsession = player.subsession
-        if player.send != 2:
+        if subsession.send = 0:
             set_payoffs(group)
             if player.strategy == "A":
                 play = count_strategies(group)
@@ -341,8 +344,8 @@ class Experiment(Page):
             oppA = "".join(["<font color='#0000FF'>A (",str(play[0]),")</font>"])
             oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
             oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
-            player.send = 2
-            return {player.id_in_group: dict(
+            subsession.send = 1
+            return {0: dict(
             start=subsession.now_ms,
             message=message,
             strategy=player.strategy,
