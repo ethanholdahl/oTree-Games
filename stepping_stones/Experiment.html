@@ -102,7 +102,7 @@
 
     function liveRecv(data){
       if ('start' in data){
-        startTimer(display, 1, data.start);
+        startTimer(display, 1);
         return
       }
       if ('init' in data){
@@ -161,13 +161,13 @@
       document.getElementById(strategy).style.backgroundColor = color;
     }
 
-    function startTimer(display, round, startdur) {
+    function startTimer(display, round) {
         var start = performance.now(),
             diff,
             seconds;
         function timer() {
           if (round == 1){
-            duration = 30000-startdur
+            duration = 30000
           } else if (round <= 10) {
             duration = 20000
           } else {

@@ -100,9 +100,7 @@ class Subsession(BaseSubsession):
     solution4 = models.IntegerField(
     initial = '25'
     )
-    start_ms = models.IntegerField(
-    initial = '1'
-    )
+
 class Group(BaseGroup):
     randomized = models.IntegerField(
     initial = 0
@@ -143,9 +141,6 @@ class Player(BasePlayer):
     initial = '0'
     )
     earnings = models.CharField(
-    initial = '0'
-    )
-    ms_passed = models.IntegerField(
     initial = '0'
     )
 
@@ -319,8 +314,6 @@ class Quiz(Page):
 
 class ExperimentWaitPage(WaitPage):
     template_name = 'stepping_stones/ExperimentWaitPage.html'
-    def after_all_players_arrive(group: Group):
-        group.subsession.start_ms = int(datetime.now(tz=timezone.utc).timestamp() * 1000)
 
 
 class Experiment(Page):
@@ -329,12 +322,11 @@ class Experiment(Page):
         group = player.group
         subsession = player.subsession
         if 'load' in data:
-            player.ms_passed = int(datetime.now(tz=timezone.utc).timestamp() * 1000) - group.subsession.start_ms
             group.randomized += 1
             if group.randomized == len(group.get_players()):
                 group.randomized == 0
                 return {0: dict(
-                start=player.ms_passed
+                start='start'
                 )}
         if player.send < 2:
             set_payoffs(group)
