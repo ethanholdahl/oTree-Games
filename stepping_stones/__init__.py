@@ -145,6 +145,9 @@ class Player(BasePlayer):
     earnings = models.CharField(
     initial = '0'
     )
+    ms_passed = models.IntegerField(
+    initial = '0'
+    )
 
 # FUNCTIONS
 
@@ -317,7 +320,7 @@ class Quiz(Page):
 class ExperimentWaitPage(WaitPage):
     template_name = 'stepping_stones/ExperimentWaitPage.html'
     def after_all_players_arrive(group: Group):
-        group.subsession.start_ms = int((datetime.now(tz=timezone.utc).timestamp()+1) * 1000)
+        group.subsession.start_ms = int(datetime.now(tz=timezone.utc).timestamp() * 1000)
 
 
 class Experiment(Page):
@@ -341,11 +344,11 @@ class Experiment(Page):
             oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
             oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
             player.send = 2
-            ms_passed = int((datetime.now(tz=timezone.utc).timestamp()+1) * 1000) - group.subsession.start_ms
+            player.ms_passed = int(datetime.now(tz=timezone.utc).timestamp() * 1000) - group.subsession.start_ms
             print(player.id_in_group)
-            print(ms_passed)
+            print(player.ms_passed)
             return {player.id_in_group: dict(
-            start=ms_passed,
+            start=player.ms_passed,
             message=message,
             strategy=player.strategy,
             play=play,
