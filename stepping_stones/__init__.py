@@ -100,11 +100,8 @@ class Subsession(BaseSubsession):
     solution4 = models.IntegerField(
     initial = '25'
     )
-    now_ms = models.IntegerField(
+    start_ms = models.IntegerField(
     initial = '1'
-    )
-    send = models.IntegerField(
-    initial = '0'
     )
 class Group(BaseGroup):
     randomized = models.IntegerField(
@@ -320,8 +317,7 @@ class Quiz(Page):
 class ExperimentWaitPage(WaitPage):
     template_name = 'stepping_stones/ExperimentWaitPage.html'
     def after_all_players_arrive(group: Group):
-        group.subsession.now_ms = int((datetime.now(tz=timezone.utc).timestamp()+1) * 1000)
-
+        group.subsession.start_ms = int((datetime.now(tz=timezone.utc).timestamp()+1) * 1000)
 
 
 class Experiment(Page):
@@ -329,7 +325,7 @@ class Experiment(Page):
     def live_method(player: Player, data):
         group = player.group
         subsession = player.subsession
-        if subsession.send == 0:
+        if player.send != 2:
             set_payoffs(group)
             if player.strategy == "A":
                 play = count_strategies(group)
@@ -344,9 +340,12 @@ class Experiment(Page):
             oppA = "".join(["<font color='#0000FF'>A (",str(play[0]),")</font>"])
             oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
             oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
-            subsession.send = 1
-            return {0: dict(
-            start=subsession.now_ms,
+            player.send = 2
+            ms_passed = int((datetime.now(tz=timezone.utc).timestamp()+1) * 1000) - group.subsession.start_ms
+            print(player.id_in_group)
+            print(ms_passed)
+            return {player.id_in_group: dict(
+            start=ms_passed,
             message=message,
             strategy=player.strategy,
             play=play,
