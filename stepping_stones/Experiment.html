@@ -94,6 +94,7 @@
   var oppA = document.querySelector('#oppA')
   var oppB = document.querySelector('#oppB')
   var oppC = document.querySelector('#oppC')
+  var display = document.querySelector('#time');
 
     function choiceselect(choice){
       liveSend({'choice': choice});
@@ -101,9 +102,11 @@
 
     function liveRecv(data){
       if ('start' in data){
-        var start = data.start
-        var display = document.querySelector('#time');
-        startTimer(display, 1, start);
+        startTimer(display, 1, data.start);
+        liveSend('load')
+        return
+      }
+      if ('init' in data){
         selected(data.strategy, "LawnGreen");
         message.insertAdjacentHTML('afterbegin', data.message);
         oppA.insertAdjacentHTML('beforeend', data.oppA);
