@@ -328,13 +328,15 @@ class Experiment(Page):
     def live_method(player: Player, data):
         group = player.group
         subsession = player.subsession
-        if player.send < 2:
-            player.send = 2
-            player.ms_passed = int(datetime.now(tz=timezone.utc).timestamp() * 1000) - group.subsession.start_ms
-            return {player.id_in_group: dict(
-            start=player.ms_passed
-            )}
         if 'load' in data:
+            player.ms_passed = int(datetime.now(tz=timezone.utc).timestamp() * 1000) - group.subsession.start_ms
+            group.randomized += 1
+            if group.randomized == len(group.get_players()):
+                group.randomized == 0
+                return {0: dict(
+                start=player.ms_passed
+                )}
+        if player.send < 2:
             set_payoffs(group)
             if player.strategy == "A":
                 play = count_strategies(group)
@@ -349,6 +351,7 @@ class Experiment(Page):
             oppA = "".join(["<font color='#0000FF'>A (",str(play[0]),")</font>"])
             oppB = "".join(["<font color='#0000FF'>B (",str(play[1]),")</font>"])
             oppC = "".join(["<font color='#0000FF'>C (",str(play[2]),")</font>"])
+            player.send = 2
             return {player.id_in_group: dict(
             init="init",
             message=message,
