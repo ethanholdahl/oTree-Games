@@ -128,8 +128,11 @@ class Player(BasePlayer):
     round = models.IntegerField(
     initial = '0'
     )
-    change = models.CharField(
-    initial = 'true'
+    change = models.IntegerField(
+    initial = '0'
+    )
+    change_history = models.LongStringField(
+    initial = '0'
     )
     correct = models.IntegerField(
     initial = '0'
@@ -142,6 +145,12 @@ class Player(BasePlayer):
     )
     earnings = models.CharField(
     initial = '0'
+    )
+    payoffround1 = models.IntegerField(
+    initial = '1'
+    )
+    payoffround2 = models.IntegerField(
+    initial = '2'
     )
 
 # FUNCTIONS
@@ -324,7 +333,7 @@ class Experiment(Page):
         if 'load' in data:
             group.randomized += 1
             if group.randomized == len(group.get_players()):
-                group.randomized == 0
+                group.randomized = 0
                 return {0: dict(
                 start='start'
                 )}
@@ -368,13 +377,14 @@ class Experiment(Page):
                     #determine if choice is stochastically accpeted
                     if random.random() > subsession.UPDATE:
                         #action changed fails
-                        p.change = "false"
+                        p.change = 0
                         p.strategy = p.strategy_history[-1]
                     else:
-                        p.change = "true"
+                        p.change = 1
                         p.strategy = p.choice
-                    #update player.strategy_history
+                    #update player.strategy_history, player.change_history
                     p.strategy_history = p.strategy_history + "," + p.strategy
+                    p.change_history = p.change_history + "," + str(p.change)
                 #calculate round payoff
                 set_payoffs(group)
             # reset group.randomized once the last player runs this code
@@ -398,10 +408,10 @@ class Experiment(Page):
                 finished = "true"
             else:
                 finished = "false"
-            if (player.change == "true"):
-                message = "".join(["Your <font color='GoldenRod'><b>choice</b></font> last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <font color='GREEN'><b>accepted</b></font> and your <font color='GREEN'><b>strategy</b></font> was updated. Consequently, your <font color='GREEN'><b>strategy</b></font> for last round is <font color='GREEN'><b>", player.choice, "</b></font>."])
+            if (player.change == 1):
+                message = "".join(["Your <font color='GoldenRod'><b>choice</b></font> last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <b>accepted</b> and your <font color='GREEN'><b>strategy</b></font> was updated. Consequently, your <font color='GREEN'><b>strategy</b></font> for last round is <font color='GREEN'><b>", player.choice, "</b></font>."])
             else:
-                message = "".join(["Your <font color='GoldenRod'><b>choice</b></font> last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <font color='RED'><b>rejected</b></font> and your <font color='GREEN'><b>strategy</b></font> failed to update. Consequently, your <font color='GREEN'><b>strategy</b></font> for last round is <font color='GREEN'><b>", player.strategy, "</b></font>."])
+                message = "".join(["Your <font color='GoldenRod'><b>choice</b></font> last round, <font color='GoldenRod'><b>", player.choice, "</b></font>, was randomly <b>rejected</b> and your <font color='GREEN'><b>strategy</b></font> failed to update. Consequently, your <font color='GREEN'><b>strategy</b></font> for last round is <font color='GREEN'><b>", player.strategy, "</b></font>."])
             #set player.choice to player.strategy
             player.choice = player.strategy
             if (player.strategy == "A"):
@@ -424,31 +434,41 @@ class Experiment(Page):
             oppC=oppC
             )}
 
+class ResultsWaitPage(WaitPage):
+    @staticmethod
+    def after_all_players_arrive(group: Group):
+        print("here")
+        subsession = group.subsession
+        for p in group.get_players():
+            print("hello")
+            payoffrounds = random.sample(range(1,(subsession.ROUNDS+1)), k = 2)
+            print(payoffrounds)
+            p.payoffround1 = payoffrounds[0]
+            p.payoffround2 = payoffrounds[1]
+
+
 
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         subsession = player.subsession
-        payoffrounds = random.sample(range(1,(subsession.ROUNDS+1)), k = 2)
-        payoffround1 = payoffrounds[0]
-        payoffround2 = payoffrounds[1]
         values = player.payoff_history.split(',')
-        payoff1 = values[payoffround1]
-        payoff2 = values[payoffround2]
+        payoff1 = values[player.payoffround1]
+        payoff2 = values[player.payoffround2]
         player.payoff = cu(float(re.sub("[^0-9]", "", payoff1)) + float(re.sub("[^0-9]", "",payoff2)))
         real_world_currency_per_point = float(1/(player.subsession.OPPONENTS))
         variablepay = float(player.payoff) * real_world_currency_per_point
         fixedpay = float(player.session.participation_fee)
-        player.earnings = "{:.2f}".format(float(variablepay + fixedpay))
+        player.earnings = "{:.0f}".format(float(variablepay + fixedpay))
         return dict(
-        payoffround1 = payoffround1,
-        payoffround2 = payoffround2,
+        payoffround1 = player.payoffround1,
+        payoffround2 = player.payoffround2,
         payoff1 = payoff1,
         payoff2 = payoff2,
-        variablepay = "{:.2f}".format(variablepay),
-        fixedpay = "{:.2f}".format(fixedpay)
+        variablepay = "{:.0f}".format(variablepay),
+        fixedpay = "{:.0f}".format(fixedpay)
         )
 
 
 
-page_sequence = [Introduction, Quiz, ExperimentWaitPage, Experiment, Results]
+page_sequence = [Introduction, Quiz, ExperimentWaitPage, Experiment, ResultsWaitPage, Results]

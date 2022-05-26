@@ -167,7 +167,7 @@
             seconds;
         function timer() {
           if (round == 1){
-            duration = 30000
+            duration = 32000
           } else if (round <= 10) {
             duration = 20000
           } else {
@@ -180,7 +180,9 @@
             // does the same job as parseInt truncates the float
             seconds = diff | 0;
 
-            display.textContent = seconds;
+            if (seconds < 31){
+              display.textContent = seconds;
+            }
 
             if (diff <= 0) {
                 // add one second so that the count down starts at the full duration
