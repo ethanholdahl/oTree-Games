@@ -437,12 +437,9 @@ class Experiment(Page):
 class ResultsWaitPage(WaitPage):
     @staticmethod
     def after_all_players_arrive(group: Group):
-        print("here")
         subsession = group.subsession
         for p in group.get_players():
-            print("hello")
             payoffrounds = random.sample(range(1,(subsession.ROUNDS+1)), k = 2)
-            print(payoffrounds)
             p.payoffround1 = payoffrounds[0]
             p.payoffround2 = payoffrounds[1]
 
