@@ -6,11 +6,10 @@
     </h3>
 
     <p>
-      In this study, you are playing in a group of size {{subsession.PLAYERS}}, and you will make a series of {{subsession.ROUNDS}} decision <font color='GoldenRod'><b>choices</b></font>.
-      Your decision will be to choose one of three <font color='GREEN'><b>strategies</b></font>: <font color='purple'><b>A</b></font>, <font color='purple'><b>B</b></font>, or <font color='purple'><b>C</b></font>.
-      Each <font color='GREEN'><b>strategy</b></font> will yield a different payoff for you which will depend on the <font color='#0000FF'><b>strategies</b></font> played by the other players in the game.
+      In this study, you are playing in a group of size {{subsession.PLAYERS}}, and you will make a series of {{subsession.ROUNDS}} decisions: <font color='purple'><b>A</b></font>, <font color='purple'><b>B</b></font>, or <font color='purple'><b>C</b></font>.
+      Each decision will yield a different payoff for you which will depend on the decisions of the other players in the game.
       After {{subsession.ROUNDS}} rounds, the game will end and the computer will randomly select 2 rounds.
-      Your <font color='Red'><b>payoffs</b></font> in those two randomly selected rounds will be added together and divided by {{subsession.OPPONENTS}}. That ammount, rounded to the nearest dollar, will be added to your show up fee of $5 and together will be your total payment for the study.
+      Your <font color='Red'><b>payoffs</b></font> in those two randomly selected rounds will be added together and divided by {{subsession.OPPONENTS}}. That amount, rounded to the nearest dollar, will be added to your show up fee of $5 and together will be your total payment for the study.
       Because <font color='Red'><b>payoff</b></font> rounds are randomly selected, every decision you make has a chance of directly impacting your payment.
     </p>
 
@@ -19,7 +18,7 @@
     </h5>
 
     <p>
-      During each round you will be able to make or update your decision <font color='GoldenRod'><b>choice</b></font> by clicking one of the three purple buttons corresponing to the three decisions available to select from (see table below).
+      During each round you will be able to make or update your decision <font color='GoldenRod'><b>choice</b></font> by clicking one of the three purple buttons corresponding to the three decisions available to select from (see table below).
       Your decision <font color='GoldenRod'><b>choice</b></font> and its row in your payoff table will be highlighted yellow to help you keep track of what decision you have currently selected.
       At the end of every round, the computer will randomly (with probability = {{subsession.UPDATE}}) select to update your <font color='GREEN'><b>strategy</b></font> from last round with your selected <font color='GoldenRod'><b>choice</b></font> from this round.
       If your <font color='GREEN'><b>strategy</b></font> fails to update, the computer will ignore your <font color='GoldenRod'><b>choice</b></font> from this round and keep your <font color='GREEN'><b>strategy</b></font> from your last round of play.
@@ -29,6 +28,71 @@
       Note: <b>Everyone</b> will start the game with <b>A</b> being their "last round <font color='GREEN'><b>strategy</b></font>".
     </p>
 
+    {{ if subsession.INFORMATION }}
+        <p><i>In each cell, the amount to the left in red is the <font color='FireBrick'><b>payoff</b></font> for
+            you and to the right in blue is the <font color='DarkBlue'><b>payoff</b></font> for the other participants.</i></p>
+
+            <table class="table table-bordered text-center" style="width: auto; margin: auto">
+              <tr>
+                  <th colspan=1 rowspan=2></th>
+                  <th colspan=3>The Other Participants</th>
+              </tr>
+              <tr>
+                  <th><font color='#0000FF'>A</font></th>
+                  <th><font color='#0000FF'>B</font></th>
+                  <th><font color='#0000FF'>C</font></th>
+              <tr id = 'A'>
+                  <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_A}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_D}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_G}}</font></td>
+              </tr>
+              <tr id = 'B'>
+                  <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_B}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_E}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_H}}</font></td>
+              </tr>
+              <tr id = 'C'>
+                  <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_C}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_F}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_I}}</font></td>
+              </tr>
+            </table>
+    {{ else }}
+    <p><i>In each cell, the amount in red is your <font color='FireBrick'><b>payoff</b></font>.</i></p>
+
+        <table class="table table-bordered text-center" style="width: auto; margin: auto">
+          <tr>
+              <th colspan=1 rowspan=2></th>
+              <th colspan=3>The Other Participants</th>
+          </tr>
+          <tr>
+              <th><font color='#0000FF'>A</font></th>
+              <th><font color='#0000FF'>B</font></th>
+              <th><font color='#0000FF'>C</font></th>
+          <tr id = 'A'>
+              <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font></td>
+          </tr>
+          <tr id = 'B'>
+              <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font></td>
+          </tr>
+          <tr id = 'C'>
+              <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font></td>
+          </tr>
+        </table>
+    {{endif}}
+
     <h5>
       How <font color='Red'><b>Payoffs</b></font> are Calculated
     </h5>
@@ -36,7 +100,7 @@
     <p>
       <font color='Red'><b>Payoffs</b></font> for each round will be calculated based on your <font color='GREEN'><b>strategy</b></font> (not <font color='GoldenRod'><b>choice</b></font>, see above) and the <font color='#0000FF'><b>strategies</b></font> (not <b>choices</b>, see above) of all the other players in the game.
       Each round you get payoffs by pairing up with every player in the game. Your <font color='FireBrick'><b>payoff</b></font> in a pairing is determined by your <font color='GREEN'><b>strategy</b></font> which determines the row of the payoff table, and the other player's <font color='#0000FF'><b>strategy</b></font> which determines the column of the payoff table, together selecting an individual cell in the payoff table.
-      The red value in each cell is your <font color='FireBrick'><b>payoff</b></font> if that cell is selected{{ if subsession.INFORMATION }}, and the blue value is the <font color='DarkBlue'><b>payoff</b></font> the other player gets{{ endif }}.
+      The red value in each cell is your <font color='FireBrick'><b>payoff</b></font> if that cell is selected{{ if subsession.INFORMATION }}, and the blue value is the <font color='DarkBlue'><b>payoff</b></font> the other player gets{{ else }}. Note: everyone in this game has only been given information about their own <font color='FireBrick'><b>payoffs</b></font> the payoffs of the other players in this game is unknown{{ endif }}.
       The sum of the <font color='FireBrick'><b>payoffs</b></font> you get from every player in the game is your total <font color='Red'><b>payoff</b></font> for a round.
 
     </p>
@@ -60,75 +124,10 @@
     </h5>
 
     <p>
-      Each round lasts a fixed amount of time. Starting with 30 seconds for the first round, 20 seconds for rounds 2-9, and 10 seconds for rounds 11-{{subsession.ROUNDS}}.
+      Each round lasts a fixed amount of time. Starting with 60 seconds for the first two rounds, 45 seconds for rounds 3-5, 30 seconds for rounds 6-8, 20 seconds for rounds 9-11, and 10 seconds for rounds 12-{{subsession.ROUNDS}}.
       After each round, <font color='GREEN'><b>strategies</b></font> and <font color='Red'><b>payoffs</b></font> for all players are calculated. The information about your decision <font color='GoldenRod'><b>choice</b></font> and <font color='GREEN'><b>strategy</b></font> selected last round, the <font color='#0000FF'><b>strategies</b></font> of the other players, and your <font color='Red'><b>payoff</b></font> from last round are automatically reported at the start of every new round.
       New rounds will automatically start as soon as the previous round finishes.
     </p>
-
-{{ if subsession.INFORMATION }}
-    <p><i>In each cell, the amount to the left in red is the <font color='FireBrick'><b>payoff</b></font> for
-        you and to the right in blue is the <font color='DarkBlue'><b>payoff</b></font> for the other participants.</i></p>
-
-        <table class="table table-bordered text-center" style="width: auto; margin: auto">
-          <tr>
-              <th colspan=1 rowspan=2></th>
-              <th colspan=3>The Other Participants</th>
-          </tr>
-          <tr>
-              <th><font color='#0000FF'>A</font></th>
-              <th><font color='#0000FF'>B</font></th>
-              <th><font color='#0000FF'>C</font></th>
-          <tr id = 'A'>
-              <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_A}}</font></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_D}}</font></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_G}}</font></td>
-          </tr>
-          <tr id = 'B'>
-              <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_B}}</font></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_E}}</font></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_H}}</font></td>
-          </tr>
-          <tr id = 'C'>
-              <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_C}}</font></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_F}}</font></td>
-              <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_I}}</font></td>
-          </tr>
-        </table>
-{{ else }}
-<p><i>In each cell, the amount in red is your <font color='FireBrick'><b>payoff</b></font>.</i></p>
-
-    <table class="table table-bordered text-center" style="width: auto; margin: auto">
-      <tr>
-          <th colspan=1 rowspan=2></th>
-          <th colspan=3>The Other Participants</th>
-      </tr>
-      <tr>
-          <th><font color='#0000FF'>A</font></th>
-          <th><font color='#0000FF'>B</font></th>
-          <th><font color='#0000FF'>C</font></th>
-      <tr id = 'A'>
-          <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font></td>
-      </tr>
-      <tr id = 'B'>
-          <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font></td>
-      </tr>
-      <tr id = 'C'>
-          <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font></td>
-          <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font></td>
-      </tr>
-    </table>
-{{endif}}
 
 </div>
 </div>

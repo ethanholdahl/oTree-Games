@@ -259,6 +259,20 @@ class Quiz(Page):
             return {player.id_in_group: dict(
             question = question
             )}
+        if 'getQ' in data:
+            if player.correct == 3:
+                question = subsession.question4
+            if player.correct == 2:
+                question = subsession.question3
+            if player.correct == 1:
+                question = subsession.question2
+            if player.correct == 11:
+                question = subsession.question12
+            if player.correct == 0:
+                question = subsession.question1
+            return {player.id_in_group: dict(
+            question = question
+            )}
         if 'answer' in data:
             if player.correct == 3:
                 if int(data['answer']) == subsession.solution4:
