@@ -42,14 +42,14 @@ SESSION_CONFIGS = [
         name='stepping_stones',
         display_name="Stepping Stones",
         app_sequence=['stepping_stones'],
-        num_demo_participants=3,
+        num_demo_participants=8,
         Game = 1,
         Complete_Information = True,
         Update = .5,
-        Rounds = 15,
+        Rounds = 100,
         Players = 8,
         participation_fee=5.00,
-        real_world_currency_per_point=1/7
+        real_world_currency_per_point=1/14
     )
 ]
 
