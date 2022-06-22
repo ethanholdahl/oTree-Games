@@ -2,7 +2,7 @@
 {{ block content }}
 
     <p>
-      Your randomly selected payoffs rounds were: round {{ payoffround1 }} and round {{ payoffround2 }}.
+      Your randomly selected payoffs rounds in the first game were: round {{ payoffround1 }} and round {{ payoffround2 }}.
     </p>
     <p>
       In round {{ payoffround1 }} your payoff was: {{ payoff1 }}
@@ -11,10 +11,19 @@
       In round {{ payoffround2 }} your payoff was: {{ payoff2 }}
     </p>
     <p>
+      Your randomly selected payoffs rounds in the second game were: round {{ payoffround3 }} and round {{ payoffround4 }}.
+    </p>
+    <p>
+      In round {{ payoffround3 }} your payoff was: {{ payoff3 }}
+    </p>
+    <p>
+      In round {{ payoffround4 }} your payoff was: {{ payoff4 }}
+    </p>
+    <p>
       In total, you earned {{ player.payoff }}.
     </p>
     <p>
-      Since each point is worth $1/{{ subsession.OPPONENTS }}, your earnings, rounded to the nearest dollar, is ${{ variablepay }} for your preformance in the experiment. Added to the ${{ fixedpay }} show up fee, your total payout for the experiment is ${{ player.earnings }}.
+      Since each point is worth $1/ (2 * {{ subsession.OPPONENTS }}), your earnings, rounded to the nearest dollar, is ${{ variablepay }} for your preformance in the experiment. Added to the ${{ fixedpay }} show up fee, your total payout for the experiment is ${{ player.earnings }}.
     </p>
     <p>
       <b> Thank You</b> for your participation in this study. Please do not share any information about the study until after the study has concluded.

@@ -36,12 +36,6 @@
       </table>
     </div>
 
-    <h3 id="question"></h3>
-    <p>Only integers are accepted.</p>
-    <input type="number" id="answer">
-    <button type="button" onclick="sendAnswer()" id="btn-offer">Submit Answer</button>
-    <div id="feedback" style="font-size: 100px"></div>
-
     {{ else }}
 
     <div class="form-group required">
@@ -75,13 +69,13 @@
       </table>
     </div>
 
+    {{ endif }}
+
     <h3 id="question"></h3>
     <p>Only integers are accepted.</p>
     <input type="number" id="answer">
     <button type="button" onclick="sendAnswer()" id="btn-offer">Submit Answer</button>
     <div id="feedback" style="font-size: 100px"></div>
-
-    {{ endif }}
 
 {{ endblock }}
 

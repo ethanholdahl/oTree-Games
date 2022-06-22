@@ -1,0 +1,164 @@
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3>
+        Game 1 complete. Game 2 about to start.
+    </h3>
+
+    <h5>
+      You just played the following game:
+    </h5>
+
+    {{ if subsession.INFORMATION }}
+        <p><i>In each cell, the amount to the left in red is the <font color='FireBrick'><b>payoff</b></font> for
+            you and to the right in blue is the <font color='DarkBlue'><b>payoff</b></font> for the other participants.</i></p>
+
+            <table class="table table-bordered text-center" style="width: auto; margin: auto">
+              <tr>
+                  <th colspan=1 rowspan=2></th>
+                  <th colspan=3>The Other Participants</th>
+              </tr>
+              <tr>
+                  <th><font color='#0000FF'>A</font></th>
+                  <th><font color='#0000FF'>B</font></th>
+                  <th><font color='#0000FF'>C</font></th>
+              <tr id = 'A'>
+                  <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_A}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_D}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_G}}</font></td>
+              </tr>
+              <tr id = 'B'>
+                  <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_B}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_E}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_H}}</font></td>
+              </tr>
+              <tr id = 'C'>
+                  <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_C}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_F}}</font></td>
+                  <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font>, <font color='DarkBlue'>{{subsession.PAYOFF_I}}</font></td>
+              </tr>
+            </table>
+    {{ else }}
+    <p><i>In each cell, the amount in red is your <font color='FireBrick'><b>payoff</b></font>.</i></p>
+
+        <table class="table table-bordered text-center" style="width: auto; margin: auto">
+          <tr>
+              <th colspan=1 rowspan=2></th>
+              <th colspan=3>The Other Participants</th>
+          </tr>
+          <tr>
+              <th><font color='#0000FF'>A</font></th>
+              <th><font color='#0000FF'>B</font></th>
+              <th><font color='#0000FF'>C</font></th>
+          <tr id = 'A'>
+              <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_A}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_B}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_C}}</font></td>
+          </tr>
+          <tr id = 'B'>
+              <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_D}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_E}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_F}}</font></td>
+          </tr>
+          <tr id = 'C'>
+              <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_G}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_H}}</font></td>
+              <td><font color='FireBrick'>{{subsession.PAYOFF_I}}</font></td>
+          </tr>
+        </table>
+    {{endif}}
+    <p>
+    </p>
+    <h5>
+      Game 2 will be the following:
+    </h5>
+
+    {{ if subsession.INFORMATION }}
+        <p><i>In each cell, the amount to the left in red is the <font color='FireBrick'><b>payoff</b></font> for
+            you and to the right in blue is the <font color='DarkBlue'><b>payoff</b></font> for the other participants.</i></p>
+
+            <table class="table table-bordered text-center" style="width: auto; margin: auto">
+              <tr>
+                  <th colspan=1 rowspan=2></th>
+                  <th colspan=3>The Other Participants</th>
+              </tr>
+              <tr>
+                  <th><font color='#0000FF'>A</font></th>
+                  <th><font color='#0000FF'>B</font></th>
+                  <th><font color='#0000FF'>C</font></th>
+              <tr id = 'A'>
+                  <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+                  <td><font color='FireBrick'>7 points</font>, <font color='DarkBlue'>7 points</font></td>
+                  <td><font color='FireBrick'>1 point</font>, <font color='DarkBlue'>1 point</font></td>
+                  <td><font color='FireBrick'>7 points</font>, <font color='DarkBlue'>1 point</font></td>
+              </tr>
+              <tr id = 'B'>
+                  <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+                  <td><font color='FireBrick'>1 point</font>, <font color='DarkBlue'>1 point</font></td>
+                  <td><font color='FireBrick'>1 point</font>, <font color='DarkBlue'>1 point</font></td>
+                  <td><font color='FireBrick'>1 point</font>, <font color='DarkBlue'>1 point</font></td>
+              </tr>
+              <tr id = 'C'>
+                  <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+                  <td><font color='FireBrick'>1 point</font>, <font color='DarkBlue'>7 points</font></td>
+                  <td><font color='FireBrick'>1 point</font>, <font color='DarkBlue'>1 point</font></td>
+                  <td><font color='FireBrick'>9 points</font>, <font color='DarkBlue'>9 points</font></td>
+              </tr>
+            </table>
+
+            <p>
+              {{if subsession.GAME == 1}} Note: The new game is the same as the game that you just played.
+              {{else}} Note: The new game is the same as the game that you just played except now whenever you or another player plays 'B', you both get a payoff of 1 point for that pairing.
+              {{endif}}
+            </p>
+
+    {{ else }}
+    <p><i>In each cell, the amount in red is your <font color='FireBrick'><b>payoff</b></font>.</i></p>
+
+        <table class="table table-bordered text-center" style="width: auto; margin: auto">
+          <tr>
+              <th colspan=1 rowspan=2></th>
+              <th colspan=3>The Other Participants</th>
+          </tr>
+          <tr>
+              <th><font color='#0000FF'>A</font></th>
+              <th><font color='#0000FF'>B</font></th>
+              <th><font color='#0000FF'>C</font></th>
+          <tr id = 'A'>
+              <td><button type="button" name="choice" value="A" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick A</button></td>
+              <td><font color='FireBrick'>7 points</font></td>
+              <td><font color='FireBrick'>1 point</font></td>
+              <td><font color='FireBrick'>7 points</font></td>
+          </tr>
+          <tr id = 'B'>
+              <td><button type="button" name="choice" value="B" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick B</button></td>
+              <td><font color='FireBrick'>1 point</font></td>
+              <td><font color='FireBrick'>1 point</font></td>
+              <td><font color='FireBrick'>1 point</font></td>
+          </tr>
+          <tr id = 'C'>
+              <td><button type="button" name="choice" value="C" class="btn btn-primary btn-large" style="background-color:purple; border:none">I will pick C</button></td>
+              <td><font color='FireBrick'>1 point</font></td>
+              <td><font color='FireBrick'>1 point</font></td>
+              <td><font color='FireBrick'>9 points</font></td>
+          </tr>
+        </table>
+
+        <p>
+          {{if subsession.GAME == 1}} Note: The new game is the same as the game that you just played.
+          {{else}} Note: The new game is the same as the game that you just played except now whenever you or another player plays 'B', you get a payoff of 1 point for that pairing.
+          {{endif}}
+        </p>
+
+    {{endif}}
+
+    <p>
+      As before, <b>Everyone</b> will start the game with <b>A</b> being their "last round <font color='GREEN'><b>strategy</b></font>".
+</div>
+</div>
