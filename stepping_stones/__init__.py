@@ -208,7 +208,7 @@ def custom_export(players):
     # header row
     yield ['session', 'participant_code', 'id_in_group', 'payoff', 'choice_history', 'strategy_history', 'payoff_history', 'time_history', 'Game', 'Information', 'Update', 'Rounds', 'Players']
     for p in players:
-        yield [p.session.code, p.participant.code, p.id_in_group, p.payoff, p.choice_history, p.strategy_history, p.payoff_history, p.subsession.GAME, p.subsession.INFORMATION, p.subsession.UPDATE, p.subsession.ROUNDS, p.subsession.PLAYERS]
+        yield [p.session.code, p.participant.code, p.id_in_group, p.payoff, p.choice_history, p.strategy_history, p.payoff_history, p.time_history, p.subsession.GAME, p.subsession.INFORMATION, p.subsession.UPDATE, p.subsession.ROUNDS, p.subsession.PLAYERS]
 
 
 # PAGES
