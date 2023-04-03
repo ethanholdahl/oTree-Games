@@ -1,0 +1,23 @@
+{{ block title }}
+    Results
+{{ endblock }}
+
+{{ block content }}
+
+  {{ if player.role == "Player B"}}
+
+  <p>{{ messageB }}</p>
+
+  <img src = "{{ gameTreePathB }}"/>
+
+  {{ else }}
+
+  <p>{{ messageA }}</p>
+
+  <img src = "{{ gameTreePathA }}"/>
+
+  {{ endif }}
+
+  {{ next_button }}
+
+{{ endblock }}

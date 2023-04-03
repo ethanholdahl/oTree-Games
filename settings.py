@@ -50,7 +50,13 @@ SESSION_CONFIGS = [
         Players = 8,
         participation_fee=5.00,
         real_world_currency_per_point=1/14
-    )
+    ),
+    dict(
+        name='trust_game',
+        display_name="Trust Game with ChatGPT",
+        app_sequence=['trust_game'],
+        num_demo_participants=2,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
