@@ -1,1 +1,1 @@
-# oTree-Games-for-Game-Theory-Class
+# oTree-Games
