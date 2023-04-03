@@ -2,7 +2,7 @@ from otree.api import *
 import openai
 import re
 
-openai.api_key = 
+openai.api_key =
 
 doc = """
 For oTree beginners, it would be simpler to implement this as a discrete-time game
@@ -96,10 +96,14 @@ class Experiment(Page):
                 messageInterpretA = interpret_message_for_player_A(message)
                 return {1: dict(messageToA = messageToA, messageInterpretA = messageInterpretA)}
             if data['type'] == 'AItoA':
-                player.message_sent = message
+                print(message)
+                index = message.find('Click the button below to send the following message to Player A:')+65
+                aimessage = message[index:]
+                print(aimessage)
+                player.message_sent = aimessage
                 player.message_method = "AI"
-                messageToA = message
-                messageInterpretA = interpret_message_for_player_A(message)
+                messageToA = aimessage
+                messageInterpretA = interpret_message_for_player_A(aimessage)
                 return {1: dict(messageToA = messageToA, messageInterpretA = messageInterpretA)}
         if 'choice' in data:
             choice = data['choice']
