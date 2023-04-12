@@ -1,8 +1,9 @@
 from otree.api import *
 import openai
 import re
+import Keys
 
-openai.api_key = 
+openai.api_key = Keys.openai
 
 doc = """
 For oTree beginners, it would be simpler to implement this as a discrete-time game
