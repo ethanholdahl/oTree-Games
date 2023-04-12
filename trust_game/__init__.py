@@ -1,6 +1,5 @@
 from otree.api import *
 import openai
-import re
 import Keys
 
 openai.api_key = Keys.openai

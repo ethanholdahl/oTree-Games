@@ -4,4 +4,3 @@ sentry-sdk==0.7.9
 numpy
 datetime
 openai
-re
