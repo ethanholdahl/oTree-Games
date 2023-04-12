@@ -1,7 +1,7 @@
 from otree.api import *
 import random
 import numpy as np
-import re
+import regex as re
 from datetime import datetime, timezone
 doc = """
 This is a repeated coordination game used to test the effectiveness of stepping stones.
