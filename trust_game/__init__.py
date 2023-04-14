@@ -48,24 +48,22 @@ class Player(BasePlayer):
 
 
 
-def reword_player_B_message(message, system):
+def reword_player_B_message(message):
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
-        messages=[{"role":"system", "content": system},
+        messages=[{"role":"system", "content": "There is a 2-player game occurring between the user and another player, Player A. Player A makes the first decision and must choose to play either 'In' or 'Out'. If Player A chooses 'Out' then the game ends and both the user and Player A get a payoff of 5. If Player A chooses 'In', then the user must decide between playing either 'L' or 'R'. If the user chooses 'L' then the game ends and both Player A and the user get a payoff 10. If the user chooses R, then the game ends and the user gets a payoff of 14 and Player A gets a payoff of 0. The user can send a message to Player A before Player A decideds to play 'In' or 'Out'. You are an assistant to the user. Your job is to help the user write a clear message to Player A. You should analyze the message and make any necessary suggestions to help make the user's message to Player A more clear and convincing. You should also end your reply to the user by revising the user's message to Player A while making it as clear and convincing as possible. You should prepend the revised message with 'Click the button below to send the following message to Player A:'"},
         {"role":"user", "content": message}]
     )
-    # system = "There is a 2-player game occurring between the user and another player, Player A. Player A makes the first decision and must choose to play either 'In' or 'Out'. If Player A chooses 'Out' then the game ends and both the user and Player A get a payoff of 5. If Player A chooses 'In', then the user must decide between playing either 'L' or 'R'. If the user chooses 'L' then the game ends and both Player A and the user get a payoff 10. If the user chooses R, then the game ends and the user gets a payoff of 14 and Player A gets a payoff of 0. The user can send a message to Player A before Player A decideds to play 'In' or 'Out'. You are an assistant to the user. Your job is to help the user write a clear message to Player A. You should analyze the message and make any necessary suggestions to help make the user's message to Player A more clear and convincing. You should also end your reply to the user by revising the user's message to Player A while making it as clear and convincing as possible. You should prepend the revised message with 'Click the button below to send the following message to Player A:'"
     assistantB_message = completion.choices[0].message.content
     print(assistantB_message)
     return(assistantB_message)
 
-def interpret_message_for_player_A(message, system):
+def interpret_message_for_player_A(message):
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
-        messages=[{"role":"system", "content": system},
+        messages=[{"role":"system", "content": "There is a 2-player game. Player A moves first. Player A can choose Out or In. If they choose Out then both players get a payoff of 5. If they choose In, it is player B's turn to move. Player B can choose either L or R. If player B chooses L both players get 10. If player B chooses R, they get a payoff of 14 and player A gets a payoff of 0. Player B can send a message to player A before the game starts. You are an assistant to player A. Your job is to interpret the message sent by player B to help player A make their decision."},
         {"role":"user", "content": "Player B said: " + message}]
     )
-    # system = "There is a 2-player game. Player A moves first. Player A can choose Out or In. If they choose Out then both players get a payoff of 5. If they choose In, it is player B's turn to move. Player B can choose either L or R. If player B chooses L both players get 10. If player B chooses R, they get a payoff of 14 and player A gets a payoff of 0. Player B can send a message to player A before the game starts. You are an assistant to player A. Your job is to interpret the message sent by player B to help player A make their decision."
     assistantA_message = completion.choices[0].message.content
     return(assistantA_message)
 
@@ -87,25 +85,17 @@ class Experiment(Page):
         if 'message' in data:
             message = data['message']
             if data['type'] == 'BtoAI':
-                system = data['system']
+                print(message)
                 player.message_sent_to_AI = message
-                player.message_AI_assistant = reword_player_B_message(message, system)
+                player.message_AI_assistant = reword_player_B_message(message)
                 messageAIB = player.message_AI_assistant
                 return {2: dict(messageAIB = messageAIB)}
             if data['type'] == 'BtoA':
                 player.message_sent = message
                 player.message_method = "Own"
                 messageToA = message
-                #messageInterpretA = interpret_message_for_player_A(message)
-                #return {1: dict(messageToA = messageToA, messageInterpretA = messageInterpretA)}
-                return {1: dict(messageToA1 = messageToA)}
-            if data['type'] == 'AtoAI':
-                print("hello!")
-                messageToA = message
-                system = data['system']
-                messageInterpretA = interpret_message_for_player_A(message, system)
-                print(messageInterpretA)
-                return {1: dict(messageToA2 = messageToA, messageInterpretA = messageInterpretA)}
+                messageInterpretA = interpret_message_for_player_A(message)
+                return {1: dict(messageToA = messageToA, messageInterpretA = messageInterpretA)}
             if data['type'] == 'AItoA':
                 print(message)
                 index = message.find('Click the button below to send the following message to Player A:')
@@ -120,16 +110,23 @@ class Experiment(Page):
                 player.message_sent = aimessage
                 player.message_method = "AI"
                 messageToA = aimessage
-                #messageInterpretA = interpret_message_for_player_A(aimessage)
-                #return {1: dict(messageToA = messageToA, messageInterpretA = messageInterpretA)}
-                return {1: dict(messageToA1 = messageToA)}
+                messageInterpretA = interpret_message_for_player_A(aimessage)
+                return {1: dict(messageToA = messageToA, messageInterpretA = messageInterpretA)}
         if 'choice' in data:
             choice = data['choice']
             player.choice = choice
-            if data['choice'] == 'In':
-                return {2: dict(choice=choice)}
-            else:
-                group.outcome = choice
+            print(player.choice)
+            if other.field_maybe_none('choice') != None:
+                if player.id_in_group == 1:
+                    choiceA = player.choice
+                    choiceB = other.choice
+                else:
+                    choiceA = other.choice
+                    choiceB = player.choice
+                if choiceA == "Out":
+                    group.outcome = "Out"
+                else:
+                    group.outcome = choiceB
                 return {0: dict(finished = "finished")}
 
 

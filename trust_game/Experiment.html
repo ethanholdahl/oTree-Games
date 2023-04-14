@@ -19,16 +19,10 @@ Trust Game
    <div style="float:right; width: 47%">
      <table class="table">
        <tr>
-           <th>Edit the AI instructions (will not be viewable or editable by subjects in the experiment)</th>
-           <td>
-               <textarea rows="5" id="playerB-system">There is a 2-player game occurring between the user and another player, Player A. Player A makes the first decision and must choose to play either 'In' or 'Out'. If Player A chooses 'Out' then the game ends and both the user and Player A get a payoff of 5. If Player A chooses 'In', then the user must decide between playing either 'L' or 'R'. If the user chooses 'L' then the game ends and both Player A and the user get a payoff 10. If the user chooses R, then the game ends and the user gets a payoff of 14 and Player A gets a payoff of 0. The user can send a message to Player A before Player A decideds to play 'In' or 'Out'. You are an assistant to the user. Your job is to help the user write a clear message to Player A. You should analyze the message and make any necessary suggestions to help make the user's message to Player A more clear and convincing. You should also end your reply to the user by revising the user's message to Player A while making it as clear and convincing as possible. You should prepend the revised message with 'Click the button below to send the following message to Player A:'</textarea>
-           </td>
-       </tr>
-       <tr>
-         <th>Send a message to the other player:</th>
+         <th>Draft a message to the other player:</th>
          <td>
-           <input type="text" id="playerB-message">
-           <button type="button" onclick="sendMessageBToAI()" id="btn-playerB-send-to-AI">Send your message to AI</button>
+           <textarea rows="3" id="playerB-message" oninput="auto_grow(this)" placeholder="Draft a message to send to player A or ask the AI for advice in composing the message."></textarea>
+           <button type="button" onclick="sendMessageBToAI()" id="btn-playerB-send-to-AI" disabled>Send your message to AI</button>
            <button type="button" onclick="sendMessageBToPlayer()" id="btn-playerB-send-to-A" disabled> Send your message to Player A </button>
          </td>
        </tr>
@@ -60,12 +54,6 @@ Trust Game
    </div>
    <div style="float:right; width: 47%">
      <table class="table">
-       <tr>
-           <th>Edit the AI instructions (will not be viewable or editable by subjects in the experiment)</th>
-           <td>
-               <textarea rows="5" id="playerA-system">There is a 2-player game. Player A moves first. Player A can choose Out or In. If they choose Out then both players get a payoff of 5. If they choose In, it is player B's turn to move. Player B can choose either L or R. If player B chooses L both players get 10. If player B chooses R, they get a payoff of 14 and player A gets a payoff of 0. Player B can send a message to player A before the game starts. You are an assistant to player A. Your job is to interpret the message sent by player B to help player A make their decision.</textarea>
-           </td>
-       </tr>
          <tr>
              <th>Message from Player B:</th>
              <td>
@@ -102,28 +90,57 @@ Trust Game
     let playerAGame = document.getElementById('playerA-game');
     let playerASystemMessage = document.getElementById('playerA-system-message');
     let playerBSystemMessage = document.getElementById('playerB-system-message');
-    let playerASystem = document.getElementById('playerA-system');
-    let playerBSystem = document.getElementById('playerB-system');
 
     function sendMessageBToAI() {
-      //liveSend({'type': 'BtoAI', 'message': playerBMessage.value})
-      liveSend({'type': 'BtoAI', 'message': playerBMessage.value, 'system': playerBSystem.innerHTML})
+      liveSend({'type': 'BtoAI', 'message': playerBMessage.value})
     }
 
     function sendMessageBToPlayer() {
-      //btnPlayerBSendToAI.setAttribute("hidden", "hidden");
-      //btnPlayerBSendToA.setAttribute("hidden", "hidden");
-      //btnAISendToA.setAttribute("hidden", "hidden");
+      btnPlayerBSendToAI.setAttribute("hidden", "hidden");
+      btnPlayerBSendToA.setAttribute("hidden", "hidden");
+      btnAISendToA.setAttribute("hidden", "hidden");
       liveSend({'type': 'BtoA', 'message': playerBMessage.value})
-      playerBSystemMessage.innerHTML = "Your message was sent to Player A. Please wait for Player A to make their decision."
+      playerBGame.src = "https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree-In.jpg";
+      playerBSystemMessage.innerHTML = "Your message was sent to Player A. Assume Player A selects 'In'. Please decide between playing 'L' or 'R' in this case by clicking on one of the buttons below.";
+      btnPlayL.removeAttribute("hidden");
+      btnPlayR.removeAttribute("hidden");
+      btnPlayL.addEventListener("click", () => {
+        btnPlayL.setAttribute("hidden", "hidden");
+        btnPlayR.setAttribute("hidden", "hidden");
+        liveSend({'choice': 'L'})
+        playerBSystemMessage.innerHTML = "You selected 'L'. Thank you for playing. Please wait for player A to make their decision.";
+        playerBGame.src="https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree.jpg"
+      })
+
+      btnPlayR.addEventListener("click", () => {
+        btnPlayL.setAttribute("hidden", "hidden");
+        btnPlayR.setAttribute("hidden", "hidden");
+        liveSend({'choice': 'R'})
+        playerBSystemMessage.innerHTML = "You selected 'R'. Thank you for playing. Please wait for player A to make their decision.";
+        playerBGame.src="https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree.jpg"
+      })
     }
 
     function sendAIMessageBToPlayer() {
-      //btnPlayerBSendToAI.setAttribute("hidden", "hidden");
-      //btnPlayerBSendToA.setAttribute("hidden", "hidden");
-      //btnAISendToA.setAttribute("hidden", "hidden");
+      btnPlayerBSendToAI.setAttribute("hidden", "hidden");
+      btnPlayerBSendToA.setAttribute("hidden", "hidden");
+      btnAISendToA.setAttribute("hidden", "hidden");
       liveSend({'type': 'AItoA', 'message': playerBAssistant.innerHTML})
-      playerBSystemMessage.innerHTML = "Your message was sent to Player A. Please wait for Player A to make their decision."
+      playerBGame.src = "https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree-In.jpg";
+      playerBSystemMessage.innerHTML = "Your message was sent to Player A. Assume Player A selects 'In'. Please decide between playing 'L' or 'R' in this case by clicking on one of the buttons below.";
+      btnPlayL.removeAttribute("hidden");
+      btnPlayR.removeAttribute("hidden");
+      btnPlayL.addEventListener("click", () => {
+        liveSend({'choice': 'L'})
+        btnPlayL.setAttribute("hidden", "hidden");
+        btnPlayR.setAttribute("hidden", "hidden");
+      })
+
+      btnPlayR.addEventListener("click", () => {
+        btnPlayL.setAttribute("hidden", "hidden");
+        btnPlayR.setAttribute("hidden", "hidden");
+        liveSend({'choice': 'R'})
+      })
     }
 
     btnPlayIn.addEventListener("click", () => {
@@ -138,6 +155,8 @@ Trust Game
       btnPlayOut.setAttribute("hidden", "hidden");
       btnPlayIn.setAttribute("hidden", "hidden");
       liveSend({'choice': 'Out'})
+      playerASystemMessage.innerHTML = "You selected 'Out'. Player B was asked what they would play if you played 'In'. Please wait for Player B to make their decision.";
+      playerAGame.src = "https://ethanholdahl.com/assets/images/trust-game-AI/Player-A-Game-Tree-Out.jpg";
     })
 
     function liveRecv(data) {
@@ -150,49 +169,28 @@ Trust Game
         btnPlayerBSendToA.disabled = false;
         btnAISendToA.disabled = false;
       }
-      //if('messageToA' in data) {
-      //  playerASystemMessage.innerHTML = "You may now decide to play 'In' or 'Out' by clicking on one of the buttons below."
-      //  messageFromPlayerB.innerHTML = data.messageToA
-      //  playerAAssistant.innerHTML = data.messageInterpretA
-      //  btnPlayIn.disabled = false;
-      //  btnPlayOut.disabled = false;
-      //}
-      if('messageToA1' in data) {
-        messageFromPlayerB.innerHTML = data.messageToA1
-        liveSend({'type': 'AtoAI', 'message': data.messageToA1, 'system': playerASystem.innerHTML})
-      }
-      if('messageToA2' in data) {
+      if('messageToA' in data) {
         playerASystemMessage.innerHTML = "You may now decide to play 'In' or 'Out' by clicking on one of the buttons below."
-        messageFromPlayerB.innerHTML = data.messageToA2
+        messageFromPlayerB.innerHTML = data.messageToA
         playerAAssistant.innerHTML = data.messageInterpretA
         btnPlayIn.disabled = false;
         btnPlayOut.disabled = false;
-      }
-      if('choice' in data) {
-        if(data.choice == "In"){
-          playerBGame.src = "https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree-In.jpg";
-          playerBSystemMessage.innerHTML = "Player A selected 'In'. Please decide between playing 'L' or 'R' by clicking on one of the buttons below.";
-          btnPlayL.removeAttribute("hidden");
-          btnPlayR.removeAttribute("hidden");
-
-          btnPlayL.addEventListener("click", () => {
-            liveSend({'choice': 'L'})
-            btnPlayL.setAttribute("hidden", "hidden");
-            btnPlayR.setAttribute("hidden", "hidden");
-          })
-
-          btnPlayR.addEventListener("click", () => {
-            btnPlayL.setAttribute("hidden", "hidden");
-            btnPlayR.setAttribute("hidden", "hidden");
-            liveSend({'choice': 'R'})
-          })
-        }
       }
     }
 
     window.addEventListener('DOMContentLoaded', (event) => {
         liveSend({});
     });
+    function auto_grow(element) {
+      element.style.height = "5px";
+      element.style.height = (element.scrollHeight)+"px";
+      if(element.value === ""){
+        btnPlayerBSendToAI.disabled = true;
+        element.style.height = "78px";
+      } else {
+        btnPlayerBSendToAI.disabled = false;
+      }
+    };
 
 </script>
 
