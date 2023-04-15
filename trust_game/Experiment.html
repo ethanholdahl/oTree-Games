@@ -134,12 +134,16 @@ Trust Game
         liveSend({'choice': 'L'})
         btnPlayL.setAttribute("hidden", "hidden");
         btnPlayR.setAttribute("hidden", "hidden");
+        playerBSystemMessage.innerHTML = "You selected 'L'. Thank you for playing. Please wait for player A to make their decision.";
+        playerBGame.src="https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree.jpg"
       })
 
       btnPlayR.addEventListener("click", () => {
         btnPlayL.setAttribute("hidden", "hidden");
         btnPlayR.setAttribute("hidden", "hidden");
         liveSend({'choice': 'R'})
+        playerBSystemMessage.innerHTML = "You selected 'R'. Thank you for playing. Please wait for player A to make their decision.";
+        playerBGame.src="https://ethanholdahl.com/assets/images/trust-game-AI/Player-B-Game-Tree.jpg"
       })
     }
 
