@@ -1,0 +1,237 @@
+{{ block content }}
+
+
+
+
+
+
+
+
+
+<table class="table text-center" style="width: auto; margin: auto">
+  <tr>
+    <th></th>
+    <th></th>
+    <th colspan="2">Player 2</th>
+  <tr>
+    <th></th>
+    <th></th>
+    <th> a_1 </th>
+    <th> a_2 </th>
+  </tr>
+  <tr>
+    <th rowspan="2"> Player 1 </th>
+    <th> a_1 </th>
+    <td><input type="number" id="payoff111" value = 5 style="width:26px;"></input>,<input type="number" id="payoff112" value = 5 style="width:26px"></input></td>
+    <td><input type="number" id="payoff121" value = 2 style="width:26px"></input>,<input type="number" id="payoff122" value = 2 style="width:26px"></input></td>
+  </tr>
+  <tr>
+    <th> a_2 </th>
+      <td><input type="number" id="payoff211" value = 3 style="width:26px"></input>,<input type="number" id="payoff212" value = 3 style="width:26px"></input></td>
+      <td><input type="number" id="payoff221" value = 6 style="width:26px"></input>,<input type="number" id="payoff222" value = 6 style="width:26px"></input></td>
+  </tr>
+</table>
+<br>
+
+
+<table class="table table-bordered text-center" style="width: auto; margin: auto">
+  <tr>
+    <th></th>
+    <th colspan="11">Play</th>
+  </tr>
+  <tr>
+    <th>Round #</th>
+    <th>t-m+1</th>
+    <th>...</th>
+    <th>t</th>
+    <th>t+1</th>
+    <th>...</th>
+    <th>t+⌈α_1×k⌉</th>
+    <th>t+⌈α_1×k⌉+1</th>
+    <th>...</th>
+    <th>t+⌈α_1×k⌉+⌈α_2×k⌉</th>
+    <th>t+⌈α_1×k⌉+⌈α_2×k⌉+1</th>
+    <th>...</th>
+  </tr>
+  <tr>
+    <th> Player 1 </th>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_1</font></td>
+    <td><font color='DarkBlue'>a_1</font></td>
+  </tr>
+  <tr>
+    <th> Player 2 </th>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+  </tr>
+</table>
+
+<br>
+
+<table class="table table-bordered text-center" style="width: auto; margin: auto">
+  <tr>
+    <th></th>
+    <th colspan="11">Play</th>
+  </tr>
+  <tr>
+    <th>Round #</th>
+    <th>t-m+1</th>
+    <th>...</th>
+    <th>t</th>
+    <th>t+1</th>
+    <th>...</th>
+    <th>t+m-⌈α_2×k⌉</th>
+    <th>t+m-⌈α_2×k⌉+1</th>
+    <th>...</th>
+    <th>t+⌈α_1×k⌉</th>
+    <th>t+⌈α_1×k⌉+1</th>
+    <th>...</th>
+    <th>t+⌈α_1×k⌉+⌈α_2×k⌉</th>
+    <th>t+⌈α_1×k⌉+⌈α_2×k⌉+1</th>
+    <th>...</th>
+  </tr>
+  <tr>
+    <th> Player 1 </th>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='FireBrick'>a_1</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_2</font></td>
+    <td><font color='DarkBlue'>a_1</font></td>
+    <td><font color='DarkBlue'>a_1</font></td>
+  </tr>
+  <tr>
+    <th> Player 2 </th>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='DarkBlue'>b_2</font></td>
+      <td><font color='FireBrick'>b_1</font></td>
+      <td><font color='FireBrick'>b_1</font></td>
+      <td><font color='FireBrick'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+      <td><font color='DarkBlue'>b_1</font></td>
+  </tr>
+</table>
+
+<script>
+  let payoff111 = document.getElementById('payoff111');
+  let payoff112 = document.getElementById('payoff112');
+  let payoff121 = document.getElementById('payoff121');
+  let payoff122 = document.getElementById('payoff122');
+  let payoff211 = document.getElementById('payoff211');
+  let payoff212 = document.getElementById('payoff212');
+  let payoff221 = document.getElementById('payoff221');
+  let payoff222 = document.getElementById('payoff222');
+
+  payoff111.addEventListener("input", () => {
+    if (payoff111.value == ""){
+      payoff111.value = 0
+    }
+    if (Number(payoff111.value) < Number(payoff211.value)){
+      payoff111.value = payoff211.value
+    }
+  })
+
+  payoff112.addEventListener("input", () => {
+    if (payoff112.value == ""){
+      payoff112.value = 0
+    }
+    if (Number(payoff112.value) < Number(payoff122.value)){
+      payoff112.value = payoff122.value
+    }
+  })
+
+  payoff121.addEventListener("input", () => {
+    if (payoff121.value == ""){
+      payoff121.value = 0
+    }
+    if (Number(payoff121.value) > Number(payoff221.value)){
+      payoff121.value = payoff221.value
+    }
+  })
+
+  payoff122.addEventListener("input", () => {
+    if (payoff122.value == ""){
+      payoff122.value = 0
+    }
+    if (Number(payoff122.value) > Number(payoff112.value)){
+      payoff122.value = payoff112.value
+    }
+  })
+
+  payoff211.addEventListener("input", () => {
+    if (payoff211.value == ""){
+      payoff211.value = 0
+    }
+    if (Number(payoff211.value) > Number(payoff111.value)){
+      payoff211.value = payoff111.value
+    }
+  })
+
+  payoff212.addEventListener("input", () => {
+    if (payoff212.value == ""){
+      payoff212.value = 0
+    }
+    if (Number(payoff212.value) > Number(payoff222.value)){
+      payoff212.value = payoff222.value
+    }
+  })
+
+  payoff221.addEventListener("input", () => {
+    if (payoff221.value == ""){
+      payoff221.value = 0
+    }
+    if (Number(payoff221.value) < Number(payoff121.value)){
+      payoff221.value = payoff121.value
+    }
+  })
+
+  payoff222.addEventListener("input", () => {
+    if (payoff222.value == ""){
+      payoff222.value = 0
+    }
+    if (Number(payoff222.value < payoff212.value)){
+      payoff222.value = payoff212.value
+    }
+  })
+
+
+function auto_grow(element) {
+  element.style.width = "5px";
+  element.style.height = (element.scrollHeight)+"px";
+  if(element.value === ""){
+    element.style.width = "15px";
+  }
+};
+</script>
+{{ endblock }}
